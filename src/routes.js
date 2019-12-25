@@ -1,4 +1,4 @@
-const { Router } = require('express');
+import { Router } from 'express';
 
 const routes = new Router();
 
@@ -18,4 +18,4 @@ routes.delete('/students', (req, res) => {
   return res.json({ msg: 'Hello students delete' });
 });
 
-module.exports = routes;
+export default routes;
