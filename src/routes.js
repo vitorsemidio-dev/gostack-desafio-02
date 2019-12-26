@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import StudentController from './app/controllers/StudentController';
+import UserController from './app/controllers/UserController';
 
 const routes = new Router();
 
@@ -17,5 +18,7 @@ routes.post('/students', StudentController.store);
 routes.delete('/students', (req, res) => {
   return res.json({ msg: 'Hello students delete' });
 });
+
+routes.post('/admin', UserController.store);
 
 export default routes;
