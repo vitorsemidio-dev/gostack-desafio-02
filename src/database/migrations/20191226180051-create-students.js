@@ -22,12 +22,12 @@ module.exports = {
         allowNull: false,
       },
       weight: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         defaultValue: 0.0,
         allowNull: false,
       },
       height: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         defaultValue: 0.0,
         allowNull: false,
       },
