@@ -1,7 +1,23 @@
+import * as Yup from 'yup';
+
 import Student from '../models/Student';
 
 class StudentController {
   async store(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string()
+        .email()
+        .required(),
+      age: Yup.number(),
+      weight: Yup.number(),
+      height: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
     const student = await Student.create(req.body);
 
     return res.json(student);
@@ -10,6 +26,13 @@ class StudentController {
   async update(req, res) {
     const { name, email, age, weight, height } = req.body;
     const { id } = req.params;
+
+    if (!(name || email || age || weight || height)) {
+      return res.status(400).json({ error: 'No data provides' });
+    }
+    if (!id) {
+      return res.status(400).json({ error: 'Id does not provide' });
+    }
 
     const student = await Student.findByPk(id);
 
