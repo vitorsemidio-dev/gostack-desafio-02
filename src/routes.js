@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import StudentController from './app/controllers/StudentController';
 import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
 
 const routes = new Router();
 
@@ -13,12 +14,14 @@ routes.put('/students', (req, res) => {
   return res.json({ msg: 'Hello students put' });
 });
 
-routes.post('/students', StudentController.store);
-
 routes.delete('/students', (req, res) => {
   return res.json({ msg: 'Hello students delete' });
 });
 
+routes.post('/students', StudentController.store);
+
 routes.post('/admin', UserController.store);
+
+routes.post('/sessions', SessionController.store);
 
 export default routes;
