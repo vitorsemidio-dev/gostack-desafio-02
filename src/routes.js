@@ -3,10 +3,11 @@ import { Router } from 'express';
 import StudentController from './app/controllers/StudentController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
+import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.get('/students', (req, res) => {
+routes.get('/students', authMiddleware, (req, res) => {
   return res.json({ msg: 'Hello students get' });
 });
 
