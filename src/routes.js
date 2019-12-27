@@ -11,9 +11,7 @@ routes.get('/students', authMiddleware, (req, res) => {
   return res.json({ msg: 'Hello students get' });
 });
 
-routes.put('/students', (req, res) => {
-  return res.json({ msg: 'Hello students put' });
-});
+routes.put('/students/:id', authMiddleware, StudentController.update);
 
 routes.delete('/students', (req, res) => {
   return res.json({ msg: 'Hello students delete' });
