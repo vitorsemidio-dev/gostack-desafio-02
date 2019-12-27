@@ -30,9 +30,6 @@ class StudentController {
     if (!(name || email || age || weight || height)) {
       return res.status(400).json({ error: 'No data provides' });
     }
-    if (!id) {
-      return res.status(400).json({ error: 'Id does not provide' });
-    }
 
     const student = await Student.findByPk(id);
 

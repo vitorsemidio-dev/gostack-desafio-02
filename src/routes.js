@@ -4,13 +4,19 @@ import StudentController from './app/controllers/StudentController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import authMiddleware from './app/middlewares/auth';
+import idMiddleware from './app/middlewares/CheckId';
 
 const routes = new Router();
 
 routes.get('/students', StudentController.index);
-routes.get('/students/:id', StudentController.show);
+routes.get('/students/:id', idMiddleware, StudentController.show);
 
-routes.put('/students/:id', authMiddleware, StudentController.update);
+routes.put(
+  '/students/:id',
+  authMiddleware,
+  idMiddleware,
+  StudentController.update
+);
 
 routes.delete('/students', (req, res) => {
   return res.json({ msg: 'Hello students delete' });
