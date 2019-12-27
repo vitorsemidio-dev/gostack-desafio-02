@@ -7,9 +7,8 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.get('/students', authMiddleware, (req, res) => {
-  return res.json({ msg: 'Hello students get' });
-});
+routes.get('/students', StudentController.index);
+routes.get('/students/:id', StudentController.show);
 
 routes.put('/students/:id', authMiddleware, StudentController.update);
 

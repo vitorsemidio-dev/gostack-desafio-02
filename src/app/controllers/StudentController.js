@@ -59,6 +59,23 @@ class StudentController {
 
     return res.json(studentUpdated);
   }
+
+  async index(req, res) {
+    const students = await Student.findAll();
+
+    return res.json(students);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+    const student = await Student.findByPk(id);
+
+    if (!student) {
+      return res.status(404).json({ error: 'Student does not found' });
+    }
+
+    return res.json(student);
+  }
 }
 
 export default new StudentController();
