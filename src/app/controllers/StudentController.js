@@ -11,10 +11,6 @@ class StudentController {
     const { name, email, age, weight, height } = req.body;
     const { id } = req.params;
 
-    console.log(name, email, id);
-
-    // return res.json({ name, email, id });
-
     const student = await Student.findByPk(id);
 
     if (!student) {
@@ -22,23 +18,23 @@ class StudentController {
     }
 
     if (email && email !== student.email) {
-      const userExist = await Student.findOne({ where: { email } });
-      if (userExist) {
+      const emailExists = await Student.findOne({ where: { email } });
+      if (emailExists) {
         return res.status(400).json({ error: 'Email already exists' });
       }
     }
 
-    student.email = email || student.email;
-    student.name = name || student.name;
-    student.age = age || student.age;
-    student.weight = weight || student.weight;
-    student.height = height || student.height;
+    let studentUpdated = { email, name, age, weight, height };
 
-    console.log(student);
+    studentUpdated.email = email || student.email;
+    studentUpdated.name = name || student.name;
+    studentUpdated.age = age || student.age;
+    studentUpdated.weight = weight || student.weight;
+    studentUpdated.height = height || student.height;
 
-    // const student = await Student.create(req.body);
+    studentUpdated = await student.update(studentUpdated);
 
-    return res.json(student);
+    return res.json(studentUpdated);
   }
 }
 
