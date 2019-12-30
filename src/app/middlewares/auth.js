@@ -5,12 +5,11 @@ import authConfig from '../../config/auth';
 
 export default async (req, res, next) => {
   const authHeader = req.headers.authorization;
+  const [, token] = authHeader.split(' ');
 
-  if (!authHeader) {
+  if (!token) {
     return res.status(401).json({ error: 'Token does not provide' });
   }
-
-  const [, token] = authHeader.split(' ');
 
   try {
     await promisify(jwt.verify)(token, authConfig.secret);
