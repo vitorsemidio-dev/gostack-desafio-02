@@ -5,7 +5,7 @@ class GymPlan extends Model {
     super.init(
       {
         title: Sequelize.STRING,
-        prince: Sequelize.DOUBLE,
+        price: Sequelize.DOUBLE,
         duration: Sequelize.INTEGER,
       },
       { sequelize }
