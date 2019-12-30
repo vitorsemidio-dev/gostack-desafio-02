@@ -1,3 +1,4 @@
+import * as Yup from 'yup';
 import Registration from '../models/Registration';
 
 class RegistrationController {
@@ -16,6 +17,17 @@ class RegistrationController {
   }
 
   async update(req, res) {
+    const schema = Yup.object().shape({
+      student_id: Yup.number(),
+      plan_id: Yup.number(),
+      start_date: Yup.date(),
+      end_date: Yup.date(),
+      price: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
     const registration = await Registration.findByPk(req.params.regId);
 
     if (!registration) {
@@ -35,6 +47,17 @@ class RegistrationController {
   }
 
   async store(req, res) {
+    const schema = Yup.object().shape({
+      student_id: Yup.number().required(),
+      plan_id: Yup.number().required(),
+      start_date: Yup.date().required(),
+      end_date: Yup.date(),
+      price: Yup.number(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
     const registration = await Registration.create(req.body);
     return res.json(registration);
   }
