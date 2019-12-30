@@ -2,23 +2,29 @@ import GymPlan from '../models/GymPlan';
 
 class GymPlanController {
   async index(req, res) {
-    return res.json({ gym: 'plan' });
+    const plans = await GymPlan.findAll();
+    return res.json(plans);
   }
 
   async show(req, res) {
-    return res.json({ gym: 'plan' });
+    const { planId } = req.params;
+    return res.json(planId);
   }
 
   async update(req, res) {
-    return res.json({ gym: 'plan' });
+    const { planId } = req.params;
+    const { body: plan } = req;
+    return res.json({ planId, plan });
   }
 
   async delete(req, res) {
-    return res.json({ gym: 'plan' });
+    const { planId } = req.params;
+    return res.json(planId);
   }
 
   async store(req, res) {
-    return res.json({ gym: 'plan' });
+    const { body: plan } = req;
+    return res.json(plan);
   }
 }
 

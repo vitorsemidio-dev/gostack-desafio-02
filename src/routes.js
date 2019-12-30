@@ -31,7 +31,7 @@ routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
 routes.get('/gymplans', GymPlanController.index);
-routes.get('/gymplans/:planId', GymPlanController.index);
+routes.get('/gymplans/:planId', GymPlanController.show);
 routes.post('/gymplans', GymPlanController.store);
 routes.delete('/gymplans/:planId', GymPlanController.delete);
 routes.put('/gymplans/:planId', GymPlanController.update);
