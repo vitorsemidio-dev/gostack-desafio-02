@@ -1,22 +1,30 @@
+import Registration from '../models/Registration';
+
 class RegistrationController {
   async index(req, res) {
-    return res.json({ ok: true });
+    const registrations = await Registration.findAll();
+    return res.json(registrations);
   }
 
   async show(req, res) {
-    return res.json({ ok: true });
+    const { regId } = req.params;
+    return res.json(regId);
   }
 
   async update(req, res) {
-    return res.json({ ok: true });
+    const { regId } = req.params;
+    const { body } = req;
+    return res.json({ regId, body });
   }
 
   async delete(req, res) {
-    return res.json({ ok: true });
+    const { regId } = req.params;
+    return res.json(regId);
   }
 
   async store(req, res) {
-    return res.json({ ok: true });
+    const { body } = req;
+    return res.json(body);
   }
 }
 
