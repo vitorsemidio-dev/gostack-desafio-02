@@ -7,24 +7,36 @@ class RegistrationController {
   }
 
   async show(req, res) {
-    const { regId } = req.params;
-    return res.json(regId);
+    const registration = await Registration.findByPk(req.params.regId);
+
+    if (!registration) {
+      return res.status(404).json({ error: 'Registration does not found' });
+    }
+    return res.json(registration);
   }
 
   async update(req, res) {
-    const { regId } = req.params;
-    const { body } = req;
-    return res.json({ regId, body });
+    const registration = await Registration.findByPk(req.params.regId);
+
+    if (!registration) {
+      return res.status(404).json({ error: 'Registration does not found' });
+    }
+
+    const registrationUpdated = await registration.update(req.body);
+    return res.json(registrationUpdated);
   }
 
   async delete(req, res) {
-    const { regId } = req.params;
-    return res.json(regId);
+    const { regId: id } = req.params;
+    await Registration.destroy({
+      where: { id },
+    });
+    return res.status(200).json();
   }
 
   async store(req, res) {
-    const { body } = req;
-    return res.json(body);
+    const registration = await Registration.create(req.body);
+    return res.json(registration);
   }
 }
 
