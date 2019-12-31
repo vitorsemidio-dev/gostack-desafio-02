@@ -71,6 +71,10 @@ class RegistrationController {
       return res.status(404).json({ error: 'Student does not found' });
     }
 
+    if (student.registration_id) {
+      return res.status(401).json({ error: 'Student already registrated' });
+    }
+
     const plan = await GymPlan.findByPk(plan_id);
 
     if (!plan) {
@@ -83,12 +87,12 @@ class RegistrationController {
     const end_date = addMonths(new Date(start_date), duration);
 
     const registro = { student_id, plan_id, start_date, end_date, price };
+    const registration = await Registration.create(registro);
+    const { id: registration_id } = registration;
 
-    await Promise.all([
-      Registration.create(registro),
-      student.update({ plan_id }),
-    ]);
-    return res.json(registro);
+    await student.update({ registration_id });
+
+    return res.json(registration);
   }
 }
 
