@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import { addMonths, parseISO } from 'date-fns';
 
 class Registration extends Model {
   static init(sequelize) {
@@ -19,6 +20,14 @@ class Registration extends Model {
   static associate(models) {
     this.belongsTo(models.Student, { foreignKey: 'student_id', as: 'student' });
     this.belongsTo(models.GymPlan, { foreignKey: 'plan_id', as: 'gym_plan' });
+  }
+
+  setPrice({ price, duration }) {
+    this.price = duration * price;
+  }
+
+  setEndDate(start_date, { duration }) {
+    this.end_date = addMonths(parseISO(start_date), duration);
   }
 }
 

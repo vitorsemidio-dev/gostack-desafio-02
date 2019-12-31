@@ -100,17 +100,14 @@ class RegistrationController {
      */
     if (plan) {
       registration.set({ plan_id, gym_plan: plan });
+      registration.setPrice(plan);
     }
 
     const { gym_plan } = registration;
 
     if (start_date) {
-      const { price: cost, duration } = plan || gym_plan;
-
-      const price = cost * duration;
-      const end_date = addMonths(new Date(start_date), duration);
-
-      registration.set({ start_date, end_date, price });
+      const plan_data = plan || gym_plan;
+      registration.setEndDate(start_date, plan_data);
     }
 
     await registration.save();
