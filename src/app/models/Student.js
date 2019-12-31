@@ -17,7 +17,10 @@ class Student extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.GymPlan, { foreignKey: 'plan_id', as: 'plan' });
+    this.belongsTo(models.Registration, {
+      foreignKey: 'registration_id',
+      as: 'registration',
+    });
   }
 }
 
