@@ -15,6 +15,10 @@ class Student extends Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.belongsTo(models.GymPlan, { foreignKey: 'plan_id', as: 'plan' });
+  }
 }
 
 export default Student;
