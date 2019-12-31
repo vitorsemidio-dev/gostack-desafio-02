@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { addMonths } from 'date-fns';
+import { addMonths, isBefore, parseISO } from 'date-fns';
 
 import Registration from '../models/Registration';
 import Student from '../models/Student';
@@ -37,8 +37,36 @@ class RegistrationController {
     if (!registration) {
       return res.status(404).json({ error: 'Registration does not found' });
     }
+    const { student_id } = registration;
 
-    const registrationUpdated = await registration.update(req.body);
+    const student = await Student.findByPk(student_id);
+
+    if (!student) {
+      return res.status(404).json({ error: 'Student does not found' });
+    }
+
+    const { plan_id } = req.body;
+
+    const plan = await GymPlan.findByPk(plan_id);
+
+    if (!plan) {
+      return res.status(404).json({ error: 'Plan does not found' });
+    }
+
+    const { start_date } = req.body;
+
+    if (start_date && isBefore(parseISO(start_date), new Date())) {
+      return res.status(400).json({ error: 'Past dates are not permitted' });
+    }
+
+    const { price: cost, duration } = plan;
+
+    const price = cost * duration;
+    const end_date = addMonths(new Date(start_date), duration);
+
+    const registro = { plan_id, start_date, end_date, price };
+    const registrationUpdated = await registration.update(registro);
+
     return res.json(registrationUpdated);
   }
 
