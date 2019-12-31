@@ -7,8 +7,12 @@ import GymPlan from '../models/GymPlan';
 
 class RegistrationController {
   async index(req, res) {
+    const { page } = req.query;
+    const initialPage = !page || page < 1 ? 1 : page;
     const registrations = await Registration.findAll({
       attributes: ['id', 'start_date', 'end_date', 'price'],
+      limit: 20,
+      offset: (initialPage - 1) * 20,
       include: [
         {
           model: Student,
