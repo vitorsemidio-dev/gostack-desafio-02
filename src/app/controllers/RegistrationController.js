@@ -38,7 +38,15 @@ class RegistrationController {
     /**
      * Check if registration exists
      */
-    const registration = await Registration.findByPk(req.params.regId);
+    const registration = await Registration.findByPk(req.params.regId, {
+      include: [
+        {
+          model: GymPlan,
+          as: 'gym_plan',
+          attributes: ['price', 'duration'],
+        },
+      ],
+    });
 
     if (!registration) {
       return res.status(404).json({ error: 'Registration does not found' });
@@ -76,7 +84,7 @@ class RegistrationController {
      */
     const plan = await GymPlan.findByPk(plan_id);
 
-    if (!plan) {
+    if (plan_id && !plan) {
       return res.status(404).json({ error: 'Plan does not found' });
     }
 
@@ -88,18 +96,26 @@ class RegistrationController {
     }
 
     /**
-     * Save
+     * Save changes in DB
      */
-    const { price: cost, duration } = plan;
+    if (plan) {
+      registration.set({ plan_id, gym_plan: plan });
+    }
 
-    const price = cost * duration;
-    const end_date = addMonths(new Date(start_date), duration);
+    const { gym_plan } = registration;
 
-    const registro = { plan_id, start_date, end_date, price };
-    // const registrationUpdated = await registration.update(registro);
+    if (start_date) {
+      const { price: cost, duration } = plan || gym_plan;
 
-    return res.json(registro);
-    // return res.json(registrationUpdated);
+      const price = cost * duration;
+      const end_date = addMonths(new Date(start_date), duration);
+
+      registration.set({ start_date, end_date, price });
+    }
+
+    await registration.save();
+
+    return res.json(registration);
   }
 
   async delete(req, res) {
