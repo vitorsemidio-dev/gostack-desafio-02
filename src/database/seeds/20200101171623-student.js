@@ -15,7 +15,7 @@ const names = [
 
 const students = names.map(s => {
   const name = s;
-  const email = `${s}@onepunchman.com`;
+  const email = `${s.replace(' ', '')}@onepunchman.com`;
   const age = Math.ceil(10 + Math.random() * 50);
   const height = (1 + Math.random()).toFixed(2);
   const weight = Math.ceil(Math.random() * 70 + 40);
