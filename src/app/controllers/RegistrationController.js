@@ -1,9 +1,12 @@
 import * as Yup from 'yup';
-import { addMonths, isBefore, parseISO, startOfDay } from 'date-fns';
+import { addMonths, isBefore, parseISO, startOfDay, format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import Registration from '../models/Registration';
 import Student from '../models/Student';
 import GymPlan from '../models/GymPlan';
+
+import Notification from '../schemas/Notification';
 
 class RegistrationController {
   async index(req, res) {
@@ -182,6 +185,19 @@ class RegistrationController {
     const { id: registration_id } = registration;
 
     await student.update({ registration_id });
+
+    const formattedDate = format(
+      parseISO(start_date),
+      "'dia' dd 'de' MMMM 'de' yyyy",
+      {
+        locale: pt,
+      }
+    );
+
+    await Notification.create({
+      content: `Nova Matrícula de ${student.name}. O treinamento começará no ${formattedDate}`,
+      student: student_id,
+    });
 
     return res.json(registration);
   }
