@@ -40,5 +40,6 @@ routes.delete('/registrations/:regId', RegistrationController.delete);
 routes.put('/registrations/:regId', RegistrationController.update);
 
 routes.get('/notifications', NotificationController.index);
+routes.put('/notifications/:notifId', NotificationController.update);
 
 export default routes;
