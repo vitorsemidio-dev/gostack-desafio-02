@@ -5,20 +5,16 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import GymPlanController from './app/controllers/GymPlanController';
 import RegistrationController from './app/controllers/RegistrationController';
+import NotificationController from './app/controllers/NotificationController';
+
 import authMiddleware from './app/middlewares/auth';
-import idMiddleware from './app/middlewares/CheckId';
 
 const routes = new Router();
 
 routes.get('/students', StudentController.index);
-routes.get('/students/:id', idMiddleware, StudentController.show);
+routes.get('/students/:id', StudentController.show);
 
-routes.put(
-  '/students/:id',
-  authMiddleware,
-  idMiddleware,
-  StudentController.update
-);
+routes.put('/students/:id', authMiddleware, StudentController.update);
 
 routes.delete('/students', (req, res) => {
   return res.json({ msg: 'Hello students delete' });
@@ -42,5 +38,7 @@ routes.get('/registrations/:regId', RegistrationController.show);
 routes.post('/registrations', RegistrationController.store);
 routes.delete('/registrations/:regId', RegistrationController.delete);
 routes.put('/registrations/:regId', RegistrationController.update);
+
+routes.get('/notifications', NotificationController.index);
 
 export default routes;
