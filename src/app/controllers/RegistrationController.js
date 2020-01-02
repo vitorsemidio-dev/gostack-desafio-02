@@ -8,6 +8,8 @@ import GymPlan from '../models/GymPlan';
 
 import Notification from '../schemas/Notification';
 
+import Mail from '../../lib/Mail';
+
 class RegistrationController {
   async index(req, res) {
     const { page } = req.query;
@@ -194,9 +196,15 @@ class RegistrationController {
       }
     );
 
-    await Notification.create({
+    const notification = await Notification.create({
       content: `Nova Matrícula de ${student.name}. O treinamento começará no ${formattedDate}`,
       student: student_id,
+    });
+
+    await Mail.sendMail({
+      to: `${student.name} <${student.email}>`,
+      subject: 'Matrícula Realizada na GymPoint',
+      text: notification.content,
     });
 
     return res.json(registration);
