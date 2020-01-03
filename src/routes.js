@@ -6,6 +6,7 @@ import SessionController from './app/controllers/SessionController';
 import GymPlanController from './app/controllers/GymPlanController';
 import RegistrationController from './app/controllers/RegistrationController';
 import NotificationController from './app/controllers/NotificationController';
+import CheckinController from './app/controllers/CheckinController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -21,12 +22,9 @@ routes.delete('/students', (req, res) => {
 });
 
 routes.post('/students', StudentController.store);
-routes.get('/students/:id/checkins', (req, res) => {
-  return res.json({ get: true });
-});
-routes.post('/students/:id/checkins', (req, res) => {
-  return res.json({ post: true });
-});
+
+routes.get('/students/:id/checkins', CheckinController.index);
+routes.post('/students/:id/checkins', CheckinController.create);
 
 routes.post('/admin', UserController.store);
 
