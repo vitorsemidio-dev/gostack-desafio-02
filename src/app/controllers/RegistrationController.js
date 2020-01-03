@@ -216,9 +216,8 @@ class RegistrationController {
         student: student.name,
         plan: plan.title,
         total_price: registration.price,
-        start_date: registration.start_date,
+        start_date: formattedDate,
       },
-      // text: notification.content,
     });
 
     return res.json(registration);
