@@ -8,7 +8,8 @@ import GymPlan from '../models/GymPlan';
 
 import Notification from '../schemas/Notification';
 
-import Mail from '../../lib/Mail';
+import RegistrationMail from '../jobs/RegistrationMail';
+import Queue from '../../lib/Queue';
 
 class RegistrationController {
   async index(req, res) {
@@ -208,16 +209,12 @@ class RegistrationController {
       student: student_id,
     });
 
-    await Mail.sendMail({
-      to: `${student.name} <${student.email}>`,
-      subject: 'Matrícula Realizada na GymPoint',
-      template: 'registration',
-      context: {
-        student: student.name,
-        plan: plan.title,
-        total_price: registration.price,
-        start_date: formattedDate,
-      },
+    await Queue.add(RegistrationMail.key, {
+      name: student.name,
+      formattedDate,
+      plan: plan.title,
+      total_price: registration.price,
+      email: student.email,
     });
 
     return res.json(registration);
