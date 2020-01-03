@@ -21,6 +21,12 @@ routes.delete('/students', (req, res) => {
 });
 
 routes.post('/students', StudentController.store);
+routes.get('/students/:id/checkins', (req, res) => {
+  return res.json({ get: true });
+});
+routes.post('/students/:id/checkins', (req, res) => {
+  return res.json({ post: true });
+});
 
 routes.post('/admin', UserController.store);
 
