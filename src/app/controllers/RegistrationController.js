@@ -35,7 +35,14 @@ class RegistrationController {
   }
 
   async show(req, res) {
-    const registration = await Registration.findByPk(req.params.regId);
+    const registration = await Registration.findByPk(req.params.regId, {
+      include: [
+        {
+          model: GymPlan,
+          as: 'gym_plan',
+        },
+      ],
+    });
 
     if (!registration) {
       return res.status(404).json({ error: 'Registration does not found' });
@@ -196,7 +203,7 @@ class RegistrationController {
       }
     );
 
-    const notification = await Notification.create({
+    await Notification.create({
       content: `Nova Matrícula de ${student.name}. O treinamento começará no ${formattedDate}`,
       student: student_id,
     });
@@ -204,7 +211,14 @@ class RegistrationController {
     await Mail.sendMail({
       to: `${student.name} <${student.email}>`,
       subject: 'Matrícula Realizada na GymPoint',
-      text: notification.content,
+      template: 'registration',
+      context: {
+        student: student.name,
+        plan: plan.title,
+        total_price: registration.price,
+        start_date: registration.start_date,
+      },
+      // text: notification.content,
     });
 
     return res.json(registration);
