@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+
 import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
 
@@ -8,6 +10,16 @@ class AnswerController {
   async store(req, res) {
     const { help_id } = req.params;
     const { answer } = req.body;
+    const answer_data = { help_id, answer };
+
+    const schema = Yup.object().shape({
+      help_id: Yup.number().required(),
+      answer: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid(answer_data))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
 
     const help = await HelpOrder.findByPk(help_id, {
       include: [
