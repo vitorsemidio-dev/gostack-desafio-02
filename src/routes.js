@@ -7,6 +7,8 @@ import GymPlanController from './app/controllers/GymPlanController';
 import RegistrationController from './app/controllers/RegistrationController';
 import NotificationController from './app/controllers/NotificationController';
 import CheckinController from './app/controllers/CheckinController';
+import HelpOrderController from './app/controllers/HelpOrderController';
+import AnswerController from './app/controllers/AnswerController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -26,11 +28,16 @@ routes.post('/students', StudentController.store);
 routes.get('/students/:id/checkins', CheckinController.index);
 routes.post('/students/:id/checkins', CheckinController.store);
 
+routes.get('/students/:id/help-orders', HelpOrderController.index);
+routes.post('/students/:id/help-orders', HelpOrderController.store);
+
 routes.post('/admin', UserController.store);
 
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
+routes.post('/help-orders/:id/answer', AnswerController.store);
+
 routes.get('/gymplans', GymPlanController.index);
 routes.get('/gymplans/:planId', GymPlanController.show);
 routes.post('/gymplans', GymPlanController.store);
