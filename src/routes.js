@@ -28,15 +28,15 @@ routes.post('/students', StudentController.store);
 routes.get('/students/:id/checkins', CheckinController.index);
 routes.post('/students/:id/checkins', CheckinController.store);
 
-routes.get('/students/:id/help-orders', HelpOrderController.index);
-routes.post('/students/:id/help-orders', HelpOrderController.store);
+routes.get('/students/:student_id/help-orders', HelpOrderController.index);
+routes.post('/students/:student_id/help-orders', HelpOrderController.store);
 
 routes.post('/admin', UserController.store);
 
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
-routes.post('/help-orders/:id/answer', AnswerController.store);
+routes.post('/help-orders/:help_id/answer', AnswerController.store);
 
 routes.get('/gymplans', GymPlanController.index);
 routes.get('/gymplans/:planId', GymPlanController.show);

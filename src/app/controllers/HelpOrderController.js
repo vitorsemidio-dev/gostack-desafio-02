@@ -1,10 +1,21 @@
+import HelpOrder from '../models/HelpOrder';
+
 class HelpOrderController {
   async index(req, res) {
-    return res.json({ helpGet: true });
+    const { student_id } = req.params;
+    const helpOrders = await HelpOrder.findAll({
+      where: { student_id },
+    });
+
+    return res.json(helpOrders);
   }
 
   async store(req, res) {
-    return res.json({ helpPost: true });
+    const { student_id } = req.params;
+    const { question } = req.body;
+
+    const help = await HelpOrder.create({ student_id, question });
+    return res.json({ student_id, question, help });
   }
 }
 
