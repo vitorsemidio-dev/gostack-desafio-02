@@ -5,10 +5,6 @@ import AnswerMail from '../jobs/AnswerMail';
 import Queue from '../../lib/Queue';
 
 class AnswerController {
-  async index(req, res) {
-    return res.json({ answerGet: true });
-  }
-
   async store(req, res) {
     const { help_id } = req.params;
     const { answer } = req.body;
@@ -38,7 +34,7 @@ class AnswerController {
     });
 
     await help.update({ answer, answer_at: new Date() });
-    return res.json({ help_id, answer, help });
+    return res.json(help);
   }
 }
 

@@ -15,7 +15,7 @@ class HelpOrderController {
     const { question } = req.body;
 
     const help = await HelpOrder.create({ student_id, question });
-    return res.json({ student_id, question, help });
+    return res.json(help);
   }
 }
 
