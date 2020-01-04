@@ -7,7 +7,14 @@ import Student from '../models/Student';
 class CheckinController {
   async index(req, res) {
     const { id: student_id } = req.params;
-    const checkins = await Checkin.findAll({ where: { student_id } });
+    const { page } = req.query;
+    const initialPage = !page || page < 1 ? 1 : page;
+
+    const checkins = await Checkin.findAll({
+      where: { student_id },
+      limit: 20,
+      offset: (initialPage - 1) * 20,
+    });
 
     return res.json(checkins);
   }

@@ -58,7 +58,13 @@ class StudentController {
   }
 
   async index(req, res) {
-    const students = await Student.findAll();
+    const { page } = req.query;
+    const initialPage = !page || page < 1 ? 1 : page;
+
+    const students = await Student.findAll({
+      limit: 20,
+      offset: (initialPage - 1) * 20,
+    });
 
     return res.json(students);
   }
