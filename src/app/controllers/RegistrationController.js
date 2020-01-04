@@ -209,7 +209,7 @@ class RegistrationController {
       student: student_id,
     });
 
-    await Queue.add(RegistrationMail.key, {
+    Queue.add(RegistrationMail.key, {
       name: student.name,
       formattedDate,
       plan: plan.title,
