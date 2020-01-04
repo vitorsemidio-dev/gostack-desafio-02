@@ -24,7 +24,7 @@ routes.delete('/students', (req, res) => {
 routes.post('/students', StudentController.store);
 
 routes.get('/students/:id/checkins', CheckinController.index);
-routes.post('/students/:id/checkins', CheckinController.create);
+routes.post('/students/:id/checkins', CheckinController.store);
 
 routes.post('/admin', UserController.store);
 
