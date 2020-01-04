@@ -1,7 +1,6 @@
 import HelpOrder from '../models/HelpOrder';
 
 import AnswerMail from '../jobs/AnswerMail';
-import RegistrationMail from '../jobs/RegistrationMail';
 import Queue from '../../lib/Queue';
 
 class AnswerController {
@@ -19,17 +18,6 @@ class AnswerController {
       return res.status(404).json({ error: 'Help does not found' });
     }
 
-    // Queue.add(RegistrationMail.key, {
-    //   name: 'student.name',
-    //   formattedDate: 'formattedDate',
-    //   plan: 'plan.title',
-    //   total_price: 'registration.price',
-    //   email: 'student.email',
-    //   // student_name: 'student_name',
-    //   // student_email: 'student_email',
-    //   // question: 'question',
-    //   // answer: 'answer',
-    // });
     Queue.add(AnswerMail.key, {
       student_name: 'student_name',
       student_email: 'student_email',
